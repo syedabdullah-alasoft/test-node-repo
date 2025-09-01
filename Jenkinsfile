@@ -1,32 +1,49 @@
 pipeline {
     agent any
-
     environment {
-        AWS_ACCOUNT_ID = '810119354065'
         AWS_REGION = 'us-east-1'
-        ECR_REPO = 'node-express-app'
+        ECR_REPO = '810119354065.dkr.ecr.us-east-1.amazonaws.com/node-express-app'
+        IMAGE_NAME = 'my-app'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
-
     stages {
-        stage('Build Docker Image') {
+        stage('Checkout Code') {
             steps {
-                sh 'docker build -t $ECR_REPO:$IMAGE_TAG .'
+                checkout scm
             }
         }
-
-        stage('Login & Push to ECR') {
+        stage('Login to AWS ECR') {
             steps {
-                withAWS(credentials: 'aws-creds', region: "${AWS_REGION}") {
-                    sh """
-                    aws ecr get-login-password --region $AWS_REGION | \
-                    docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-
-                    docker tag $ECR_REPO:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-                    docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-                    """
+                sh '''
+                aws ecr get-login-password --region $AWS_REGION | \
+                docker login --username AWS --password-stdin $ECR_REPO
+                '''
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def image = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
             }
+        }
+        stage('Tag & Push to ECR') {
+            steps {
+                script {
+                    def localTag = "${IMAGE_NAME}:${IMAGE_TAG}"
+                    def remoteTag = "${ECR_REPO}:${IMAGE_TAG}"
+                    sh "docker tag ${localTag} ${remoteTag}"
+                    sh "docker push ${remoteTag}"
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo "✅ Docker Image pushed: $ECR_REPO:$IMAGE_TAG"
+        }
+        failure {
+            echo "❌ Build failed. Please check the logs."
         }
     }
 }

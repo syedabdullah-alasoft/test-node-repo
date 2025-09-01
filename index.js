@@ -13,3 +13,4 @@ app.get("/health", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+// sudo usermod -a -G docker ec2-instance
