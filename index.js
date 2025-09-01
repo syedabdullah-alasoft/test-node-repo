@@ -8,9 +8,7 @@ app.get("/", (req, res) => {
 app.get("/health", (req, res) => {
   res.send("Everything is fine here");
 });
-app.get("/health2", (req, res) => {
-  res.send("Everything is fine here");
-});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
