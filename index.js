@@ -6,10 +6,16 @@ app.get("/", (req, res) => {
   res.send("Hello from Node.js Express running via Jenkins & ECR!");
 });
 app.get("/health", (req, res) => {
-  res.send("Everything is fine here");
+  res.send("health1");
 });
 app.get("/health2", (req, res) => {
-  res.send("Everything is fine here");
+  res.send("health2");
+});
+app.get("/health3", (req, res) => {
+  res.send("health3");
+});
+app.get("/health4", (req, res) => {
+  res.send("health4");
 });
 
 
