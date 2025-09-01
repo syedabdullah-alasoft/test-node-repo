@@ -1,1 +1,9 @@
 ./node_modules
+# 16cf9ab1d0b941d68c4cc197cd268323
+
+# sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian/jenkins.io-2023.key
+
+# http://54.175.28.221/8080
+# http://ec2-54-175-28-221.compute-1.amazonaws.com:8080
+http://54.175.28.221:8080
+# 870f2a7020b4449c8728524c6cf03ef3
