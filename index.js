@@ -23,6 +23,9 @@ app.get("/health5", (req, res) => {
 app.get("/health6", (req, res) => {
   res.send("health6");
 });
+app.get("/health7", (req, res) => {
+  res.send("health7");
+});
 
 
 app.listen(PORT, () => {
