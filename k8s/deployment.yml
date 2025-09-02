@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: express
-          image: 810119354065.dkr.ecr.us-east-1.amazonaws.com/test-jenkins-repo:52
+          image: 810119354065.dkr.ecr.us-east-1.amazonaws.com/test-jenkins-repo:53
           ports:
             - containerPort: 3000
