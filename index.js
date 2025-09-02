@@ -21,7 +21,7 @@ app.get("/health5", (req, res) => {
   res.send("health5");
 });
 app.get("/health6", (req, res) => {
-  res.send("health5");
+  res.send("health6");
 });
 
 
